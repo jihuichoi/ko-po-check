@@ -56,7 +56,7 @@ if (option_help):
         '      --list                필터 목록을 표시합니다 (디버깅용)',
         '      --ignore=..           '
         '          yes               지정한 keyid에 해당하는 문자열을 검사하지 않고 무시합니다'
-        '          add:1,2,3..       추가할 keyid를 콤마로 구분하여 입력합니다'
+        '          add:mAJ52,ZXQSM.. 추가할 keyid를 콤마로 구분하여 입력합니다'
         '          clear             검사를 무시할 줄 목록을 초기화합니다'
         '          file:path/filename 지정한 파일의 목록을 무시 목록으로 사용합니다'
         '',
