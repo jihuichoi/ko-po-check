@@ -9,7 +9,7 @@ import getopt
 filterenable = {}
 
 SHORT_OPTIONS = ""
-LONG_OPTIONS = ['help', 'version', 'filters=', 'list']
+LONG_OPTIONS = ['help', 'version', 'filters=', 'list', 'ignore=']
 
 # processing the command line options
 
@@ -23,6 +23,12 @@ option_help = 0
 option_version = 0
 option_list = 0
 
+#지정한 keyid에 대한 검사 무시
+option_ignore = 'no'
+ignore_keyids = []
+from KPC import po
+ignore_list = po.ignore()
+
 for (opt, val) in options:
     if opt == '--help':
         option_help = 1
@@ -33,6 +39,8 @@ for (opt, val) in options:
             filterenable[m] = 1
     elif opt == '--list':
         option_list = 1
+    elif opt == '--ignore':
+        ignore_keyids = ignore_list.action(val)
 
 if not args:
     fn = '-'
@@ -46,6 +54,11 @@ if (option_help):
         '      --version             버전 정보를 표시하고 끝납니다',
         '      --filters=..          필터 직접 지정 (디버깅용)',
         '      --list                필터 목록을 표시합니다 (디버깅용)',
+        '      --ignore=..           '
+        '          yes               지정한 keyid에 해당하는 문자열을 검사하지 않고 무시합니다'
+        '          add:1,2,3..       추가할 keyid를 콤마로 구분하여 입력합니다'
+        '          clear             검사를 무시할 줄 목록을 초기화합니다'
+        '          file:path/filename 지정한 파일의 목록을 무시 목록으로 사용합니다'
         '',
         ' 파일이 `-\'이거나 파일이 주어지지 않은 경우 표준 입력에서 읽습니다.'
     ]
@@ -79,6 +92,7 @@ if option_list:
         except:
             print('BUG: "%s"에 description 필드가 없습니다' % name)
     sys.exit(0)
+
 
 retval = 0
 for fn in args:
@@ -118,6 +132,7 @@ for fn in args:
 
             errors = checker._check(entry, filtercontext[filtername])
             for e in errors:
-                print(('%s:%d: %s' % (fn, entry.msgstr_lineno, e.message)))
+                if entry.keyid not in ignore_keyids:
+                    print(('%s:%d:%s: %s' % (fn, entry.msgstr_lineno, entry.keyid, e.message)))
 
 sys.exit(retval)

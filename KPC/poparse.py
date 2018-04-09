@@ -106,6 +106,9 @@ def parse_entry(file, lineno):
         if line[:3] == '#~ ':
             new_entry.set_flag('obsolete')
             line = line[3:]
+        #key id
+        if line[:3] == '#. ':
+            new_entry.keyid = line[3:]
         # comments
         if line[0] == '#':
             if state == STATE_FIRST:
