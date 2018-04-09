@@ -66,7 +66,7 @@ Package Index (PyPI)
 
 * 무시 목록에 keyid 추가 (기본 파일에만 추가됨)
 
-```$ ko-po-check --ignore=add:ZXQSM```
+```$ ko-po-check --ignore=add:ZXQSM,mAJ52```
 
 * 무시 목록 파일 초기화 (기본 파일에만 초기화 가능)
 
